@@ -1,0 +1,9 @@
+<div class="flex h-screen">
+  <div class="image-container flex-1 h-full w-full">
+    <img src="<%= @manga.cover_art.image_url(size: :original) %>" class="h-full w-full object-cover">
+  </div>
+
+  <div class="manga-info-container flex-1">
+    <h1><%= manga_title(@manga) %></h1>
+  </div>
+</div>

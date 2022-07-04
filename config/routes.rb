@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  root "home#index"
+  get :discover, to: "home#index", as: :discover_now
+  get '/discover/:id', to: "home#discover", as: :discover
+  get :discoveries, to: "home#discoveries"
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :manga, only: :show
 end

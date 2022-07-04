@@ -1,0 +1,5 @@
+<div class="grid h-screen gap-2">
+  <% @readable.page_urls.each do |page_url| %>
+    <%= image_tag(page_url, class: 'h-screen') %>
+  <% end %>
+</div>

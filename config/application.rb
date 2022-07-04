@@ -33,5 +33,9 @@ module AiringManga
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.x.airing_manga_api_host = ENV.fetch("AIRING_MANGA_API_HOST") do
+      "https://airing-manga.herokuapp.com"
+    end
   end
 end
