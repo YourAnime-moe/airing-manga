@@ -1,5 +1,13 @@
-<div class="grid h-screen gap-2">
-  <% @readable.page_urls.each do |page_url| %>
-    <%= image_tag(page_url, class: 'h-screen') %>
-  <% end %>
-</div>
+<% content_for(:head) do %>
+  <%= javascript_import_module_tag("reader") %>
+<% end %>
+
+<%= reader_container(@readable) do %>
+  <div class="h-screen relative" id="container">
+    <% @readable.page_urls.each_with_index do |page_url, index| %>
+      <div class="hidden absolute" data-page="<%= index %>">
+        <%= image_tag(page_url, class: 'image') %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
