@@ -6,4 +6,12 @@
   .btn-primary {
     @apply py-2 px-4 bg-blue-200;
   }
+
+  .progress {
+    @apply bg-gray-700 w-full h-0.5;
+  }
+
+  .progress .progress-bar {
+    @apply h-full transition-all;
+  }
 }

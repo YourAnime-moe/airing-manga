@@ -8,6 +8,9 @@ const options = {
       goToNextManga: true,
     },
   },
+  progress: {
+    color: "bg-red-600",
+  },
   format: {
     fullheight: {
       scroll: {
@@ -46,26 +49,55 @@ function initReader() {
     throw new Error("#container missing on #reader");
   }
 
+  const nextPageButton = reader.querySelector('[data-role="next-manga"]');
+  nextPageButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    window.location.href = "/";
+  });
+
+  const progressBar = reader.querySelector(".progress-bar");
+  progressBar.style.width = "0%";
+  setClasses(progressBar, [options.progress.color]);
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === "attributes") {
+        const pages = parseInt(reader.dataset.pages);
+        const currentPage = parseInt(reader.dataset.currentPage);
+
+        const newWidth = `${(currentPage * 100) / pages}%`;
+        progressBar.style.width = newWidth;
+      }
+    });
+  });
+
+  observer.observe(reader, { attributes: true });
+
   container.addEventListener("click", (e) => {
     const { width } = getScreenDimensions();
     const clickedLeft = e.clientX <= width * options.navigation.ratio.left;
     const clickedRight =
       e.clientX > width - width * options.navigation.ratio.right;
 
-    console.log({ width, clickedLeft, clickedRight, x: e.clientX });
-
-    const pages = parseInt(reader.dataset.pages);
-    const currentPage = parseInt(reader.dataset.currentPage);
-
-    if (clickedLeft && currentPage > 0) {
+    if (clickedLeft && canGoLeft(reader)) {
       previousPage(reader);
-    } else if (clickedRight && currentPage < pages) {
+    } else if (clickedRight && canGoRight(reader)) {
       nextPage(reader);
     } else if (clickedRight && options.navigation.lastPage.goToNextManga) {
       // go to next page
       window.location.href = "/";
     }
 
+    updatePages(reader);
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft" && canGoLeft(reader)) {
+      previousPage(reader);
+    } else if (e.key === "ArrowRight" && canGoRight(reader)) {
+      nextPage(reader);
+    }
     updatePages(reader);
   });
 
@@ -115,6 +147,17 @@ function updatePages(reader) {
   if (formatOptions.scroll?.enabled) {
     window.scrollTo({ top: 0, behavior: formatOptions.scroll.behavior });
   }
+}
+
+function canGoLeft(reader) {
+  return parseInt(reader.dataset.currentPage) > 0;
+}
+
+function canGoRight(reader) {
+  const pages = parseInt(reader.dataset.pages);
+  const currentPage = parseInt(reader.dataset.currentPage);
+
+  return currentPage < pages;
 }
 
 function nextPage(reader) {
