@@ -19,7 +19,7 @@ const options = {
       page: {
         container: [],
         page: ["h-full", "w-full"],
-        image: ["h-full", "m-auto"],
+        image: ["h-full", "m-auto", "object-contain"],
       },
     },
     fullwidth: {
@@ -49,11 +49,27 @@ function initReader() {
     throw new Error("#container missing on #reader");
   }
 
-  const nextPageButton = reader.querySelector('[data-role="next-manga"]');
-  nextPageButton.addEventListener("click", (e) => {
-    e.preventDefault();
+  reader.querySelectorAll("[data-role]").forEach((roleButton) => {
+    const { role } = roleButton.dataset;
 
-    window.location.href = "/";
+    roleButton.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      if (role === "next-manga") {
+        window.location.href = "/";
+      } else if (role === "toggle") {
+        const targetId = roleButton.dataset.for;
+        const target = document.getElementById(targetId);
+
+        if (target) {
+          console.log(roleButton.dataset.class);
+          target.classList.toggle(roleButton.dataset.class || "hidden");
+          target.classList.toggle("z-10");
+        } else {
+          console.error("Element", `#${targetId}`, "doesn't exit");
+        }
+      }
+    });
   });
 
   const progressBar = getProgressBar(reader);
