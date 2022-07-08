@@ -3,21 +3,25 @@
 <% end %>
 
 <%= reader_container(@readable) do %>
-  <div class="absolute inset-0 p-4">
-    <div class="relative h-full w-full">
-      <%= link_to(root_path, class: "absolute w-8 h-8 bottom-0 left-0 z-10", data: { role: "next-manga" }) do %>
-        <%= image_tag("icons/RefreshMajor.svg") %>
-      <% end %>
+  <div class="absolute inset-0 w-full h-full" id="options">
+    <div class="p-4 w-full h-full">
+      <div class="relative h-full w-full">
+        <%= link_to(root_path, class: "absolute w-8 h-8 bottom-0 left-0 z-10", data: { role: "next-manga" }) do %>
+          <%= image_tag("icons/RefreshMajor.svg") %>
+        <% end %>
+      </div>
+    </div>
+    <div class="progress absolute top-0 z-10">
+      <div class="progress-bar h-px"></div>
     </div>
   </div>
-  <div class="progress">
-    <div class="progress-bar h-px"></div>
-  </div>
-  <div class="h-screen relative" id="container">
-    <% @readable.page_urls.each_with_index do |page_url, index| %>
-      <div class="hidden absolute" data-page="<%= index %>">
-        <%= image_tag(page_url, class: 'image') %>
-      </div>
-    <% end %>
+  <div class="absolute w-full h-full overflow-auto" id="wrapper">
+    <div id="container">
+      <% @readable.page_urls.each_with_index do |page_url, index| %>
+        <div class="hidden absolute" data-page="<%= index %>">
+          <%= image_tag(page_url, class: 'image') %>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>

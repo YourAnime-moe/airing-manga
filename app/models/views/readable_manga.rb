@@ -23,14 +23,6 @@ module Views
       @page_urls
     end
 
-    def default_options
-      {
-        "pages" => chapter.pages,
-        "current-page" => 0,
-        "format" => long_strip? ? "fullwidth" : "fullheight",
-      }
-    end
-
     def long_strip?
       manga.tags.any? { |tag| tag["id"] == LONG_STRIP_TAG_ID }
     end
