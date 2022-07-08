@@ -14,4 +14,8 @@
   .progress .progress-bar {
     @apply h-full transition-all;
   }
+
+  .icon {
+    @apply hover:scale-110 transition;
+  }
 }
