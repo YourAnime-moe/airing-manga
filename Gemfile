@@ -67,3 +67,5 @@ group :development do
   # gem "spring"
 end
 
+
+gem "redcarpet", "~> 3.5"

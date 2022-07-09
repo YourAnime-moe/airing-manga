@@ -3,6 +3,30 @@
 @tailwind utilities;
 
 @layer components {
+  h1 {
+    @apply text-2xl;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+  h3 {
+    @apply text-lg;
+  }
+
+  h4 {
+    @apply text-base font-semibold;
+  }
+
+  h5 {
+    @apply text-sm;
+  }
+
+  h6 {
+    @apply text-xs;
+  }
+
   .btn-primary {
     @apply py-2 px-4 bg-blue-200;
   }
@@ -25,5 +49,39 @@
 
   .faded {
     @apply opacity-0;
+  }
+
+  .tags {
+    @apply flex flex-wrap flex-row gap-1;
+  }
+
+  .tag {
+    @apply border-black border-2 rounded text-sm px-1;
+  }
+
+  .tag.safe {
+    @apply bg-green-500 border-green-700;
+  }
+
+  .tag.suggestive {
+    @apply bg-orange-500 border-orange-800 text-white;
+  }
+
+  .tag.erotica,
+  .tag.pornographic {
+    @apply bg-red-500 border-red-800 text-white;
+  }
+
+  .description {
+    @apply text-sm text-gray-600;
+  }
+
+  .mangadex-details {
+    width: 440px;
+    height: 600px;
+    max-width: 90%;
+    max-height: 80vh;
+
+    @apply p-2;
   }
 }

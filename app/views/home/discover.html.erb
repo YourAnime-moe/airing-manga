@@ -26,10 +26,25 @@
     <div class="progress absolute top-0 z-10">
       <div class="progress-bar h-px"></div>
     </div>
-    <div id="mangadex-details" class="fadeable faded absolute bottom-12 right-4 bg-white w-1/4 h-1/2">
-      <div class="relative h-full w-full">
-        <h1><%= manga_title(@readable.manga) %></h1>
-        <%= link_to("Open on Mangadex.org", manga_path(@readable.manga.id), target: :_blank) %>
+    <div id="mangadex-details" class="mangadex-details fadeable z-10 absolute bottom-12 right-4 bg-white">
+      <div class="relative flex flex-col gap-3 h-full w-full">
+        <h6>Viewing: <span data-display="current-page" class="font-bold">--/--</span></h6>
+        <h1>
+          <%= link_to(manga_title(@readable.manga), manga_path(@readable.manga.id), target: :_blank) %>
+        </h1>
+        <div class="tags">
+          <%= content_rating_tag(@readable) %>
+          <%= publication_demographic_tag(@readable) %>
+          <%= year_tag(@readable) %>
+        </div>
+        <div class="tags">
+          <% @readable.manga.tags.each do |tag| %>
+            <%= link_to(tag.dig("attributes", "name", "en"), "#", class: "tag", data: { role: "open-tag", value: tag["id"] }) %>
+          <% end %>
+        </div>
+        <p class="description cursor-pointer line-clamp-2" data-role="description">
+          <%= unformatted_description(@readable.manga) %>
+        </p>
       </div>
     </div>
   </div>

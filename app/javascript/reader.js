@@ -62,12 +62,23 @@ function initReader() {
         const target = document.getElementById(targetId);
 
         if (target) {
-          console.log(roleButton.dataset.class);
-          target.classList.toggle(roleButton.dataset.class || "hidden");
-          target.classList.toggle("z-10");
+          const hideClass = roleButton.dataset.class || "hidden";
+          const toAdd = [...target.classList].includes(hideClass)
+            ? hideClass
+            : "z-10";
+          const toRemove = [...target.classList].includes(hideClass)
+            ? "z-10"
+            : hideClass;
+
+          target.classList.toggle(toRemove);
+          setTimeout(() => {
+            target.classList.toggle(toAdd);
+          }, 250);
         } else {
           console.error("Element", `#${targetId}`, "doesn't exit");
         }
+      } else if (role === "description") {
+        roleButton.classList.toggle("line-clamp-2");
       }
     });
   });
@@ -80,6 +91,7 @@ function initReader() {
     mutations.forEach((mutation) => {
       if (mutation.type === "attributes") {
         updateProgressBar(reader);
+        updateDisplay(reader);
       }
     });
   });
@@ -103,6 +115,7 @@ function initReader() {
 
   updatePages(reader);
   updateProgressBar(reader);
+  updateDisplay(reader);
 }
 
 initReader();
@@ -194,6 +207,20 @@ function updateProgressBar(reader) {
 
   const newWidth = `${(currentPage * 100) / pages}%`;
   progressBar.style.width = newWidth;
+}
+
+function updateDisplay(reader) {
+  reader.querySelectorAll("[data-display]").forEach((element) => {
+    if (element.dataset.display === "current-page") {
+      const { currentPage, pages } = reader.dataset;
+
+      if (currentPage === "0") {
+        element.innerHTML = "cover page";
+      } else {
+        element.innerHTML = `page ${currentPage} of ${pages}`;
+      }
+    }
+  });
 }
 
 function getReaderFormatOptions(reader) {
