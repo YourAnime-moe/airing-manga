@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   include HomeConcern
 
+  before_action :check_logged_in_user
   after_action :register_readable_manga, only: :discover
 
   def index
