@@ -10,6 +10,12 @@ module Views
       @data_saver = data_saver
     end
 
+    def by
+      [@manga.artist, @manga.author].compact.uniq do |a|
+        a.id
+      end
+    end
+
     def chapter
       @chapters.first
     end

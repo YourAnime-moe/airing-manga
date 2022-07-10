@@ -11,9 +11,9 @@ class FetchReadableRandomManga
 
       loop do
         result = if from_id && !tried_to_find
-          Mangadex::Manga.view(from_id, includes: [:cover_art])
+          Mangadex::Manga.view(from_id, includes: [:cover_art, :artist, :author])
         else
-          Mangadex::Manga.random(includes: [:cover_art])
+          Mangadex::Manga.random(includes: [:cover_art, :artist, :author])
         end
 
         if result.result == "ok"
@@ -21,6 +21,7 @@ class FetchReadableRandomManga
           chapters = manga.chapters(
             content_rating: manga.content_rating,
             translated_language: Array.wrap(translated_language).compact.map(&:to_s),
+            includes: ['scanlation_group'],
           )
           readable_manga = Views::ReadableManga.new(manga: manga, chapters: chapters)
           found_manga = readable_manga if readable_manga.chapter && readable_manga.chapter.pages.to_i > 0

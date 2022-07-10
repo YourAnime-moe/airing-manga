@@ -26,25 +26,50 @@
     <div class="progress absolute top-0 z-10">
       <div class="progress-bar h-px"></div>
     </div>
-    <div id="mangadex-details" class="mangadex-details fadeable z-10 absolute bottom-12 right-4 bg-white">
+    <div id="mangadex-details" class="mangadex-details fadeable faded absolute bottom-12 right-4 bg-white">
       <div class="relative flex flex-col gap-3 h-full w-full">
         <h6>Viewing: <span data-display="current-page" class="font-bold">--/--</span></h6>
         <h1>
-          <%= link_to(manga_title(@readable.manga), manga_path(@readable.manga.id), target: :_blank) %>
+          <%= link_to(manga_title(@readable.manga), manga_path(@readable.manga.id), class: "text-mangadex underline font-bold", target: :_blank) %>
         </h1>
         <div class="tags">
           <%= content_rating_tag(@readable) %>
           <%= publication_demographic_tag(@readable) %>
           <%= year_tag(@readable) %>
         </div>
-        <div class="tags">
-          <% @readable.manga.tags.each do |tag| %>
-            <%= link_to(tag.dig("attributes", "name", "en"), "#", class: "tag", data: { role: "open-tag", value: tag["id"] }) %>
+        <div class="info">
+          <h3>Info</h3>
+          <ul class="text-sm">
+            <li>
+              By:
+              <% @readable.by.each do |a| %>
+                <%= link_to(a.name, "#", class: 'tag text-gray-600 border-gray-600') %>
+              <% end %>
+            </li>
+            <li>Available since: <%= Date.parse(@readable.chapter.readable_at).strftime("%B %d, %Y") %></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Tags</h3>
+          <div class="tags">
+            <% @readable.manga.tags.each do |tag| %>
+              <%= link_to(tag.dig("attributes", "name", "en"), "#", class: "tag", data: { role: "open-tag", value: tag["id"] }) %>
+            <% end %>
+          </div>
+        </div>
+        <div class="credits">
+          <h5>Credits</h5>
+          <ul class="text-xs">
+            <li>Chapter title: <%= @readable.chapter.title %></li>
+            <li>Scanlation group: <%= link_to(@readable.chapter.scanlation_group.name, "https://mangadex.org/group/#{@readable.chapter.scanlation_group.id}", target: :_blank) %></li>
+            <li>Thank you: <%= link_to("Mangadex.org", "https://mangadex.org", class: "text-mangadex", target: :_blank) %></li>
+          </ul>
+        </div>
+        <div class="read-more mt-4 w-full">
+          <%= link_to(manga_path(@readable.manga.id), class: "p-3 text-white bg-mangadex rounded-md focus:ring ring-offset-2 ring-mangadex text-center block w-full", target: "_blank") do %>
+            More on Mangadex.org
           <% end %>
         </div>
-        <p class="description cursor-pointer line-clamp-2" data-role="description">
-          <%= unformatted_description(@readable.manga) %>
-        </p>
       </div>
     </div>
   </div>

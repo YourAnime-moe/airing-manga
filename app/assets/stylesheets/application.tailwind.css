@@ -78,7 +78,7 @@
 
   .mangadex-details {
     width: 440px;
-    height: 600px;
+    height: auto;
     max-width: 90%;
     max-height: 80vh;
 
