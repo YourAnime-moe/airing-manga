@@ -84,4 +84,8 @@
 
     @apply p-2;
   }
+
+  .menu {
+    @apply p-2;
+  }
 }

@@ -20,6 +20,12 @@ module Views
       @chapters.first
     end
 
+    def scanlation_group
+      return unless chapter.every(:scanlation_group).any?
+
+      chapter.scanlation_group
+    end
+
     def page_urls
       return @page_urls if @page_urls.present?
 

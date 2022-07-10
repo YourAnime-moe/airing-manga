@@ -4,9 +4,9 @@
 
 <%= reader_container(@readable) do %>
   <div class="absolute inset-0 w-full h-full" id="options">
-    <div class="p-4 w-full h-full">
+    <div class="p-6 w-full h-full">
       <div class="relative h-full w-full">
-        <%= link_to(root_path, class: "hidden absolute w-6 h-6 top-0 left-0 z-10", data: { role: "next-manga" }) do %>
+        <%= link_to(root_path, class: "absolute w-6 h-6 top-0 left-0 z-10", data: { role: "toggle", for: "menu", class: 'faded' }) do %>
           <%= image_tag("icons/MobileHamburgerMajor.svg", class: 'icon') %>
         <% end %>
         <%= link_to(root_path, class: "hidden absolute w-6 h-6 top-0 right-0 z-10", data: { role: "next-manga" }) do %>
@@ -26,7 +26,47 @@
     <div class="progress absolute top-0 z-10">
       <div class="progress-bar h-px"></div>
     </div>
-    <div id="mangadex-details" class="mangadex-details fadeable faded absolute bottom-12 right-4 bg-white">
+    <div id="menu" data-open="false" class="menu absolute fadeable faded top-4 left-4 bg-white shadow-lg" style="width: 564px;">
+      <h1>Settings</h1>
+      <div class="flex flex-col gap-3">
+        <div class="navigation">
+          <h2>Navigation</h2>
+          <ul>
+            <li>
+              <input type="checkbox" id="next-manga-menu-item" name="next-manga-menu-item" value="Bike">
+              <label for="next-manga-menu-item"> Go to next manga on last page</label><br>
+            </li>
+          </ul>
+        </div>
+        <div class="progress-bar">
+          <h2>Progress bar</h2>
+          <div class="flex items-center gap-2">
+            <span class="flex-shrink">Color</span>
+            <div class="flex flex-grow gap-1">
+              <button class="h-4 w-4 border border-mangadex"></button>
+              <button class="h-4 w-4 border border-blue-600"></button>
+              <button class="h-4 w-4 border border-red-700"></button>
+              <button class="h-4 w-4 border border-yellow-600"></button>
+              <button class="h-4 w-4 border border-gray-500"></button>
+              <button class="h-4 w-4 border border-green-500"></button>
+              <button class="h-4 w-4 border border-purple-500"></button>
+            </div>
+          </div>
+        </div>
+        <div class="reader">
+          <% if @readable.long_strip? %>
+            <h2>Long-strip reader</h2>
+            <ul>
+              <li>
+                <input type="checkbox" id="scroll" name="scroll" value="Bike">
+                <label for="scroll"> Scroll on next page</label><br>
+              </li>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div id="mangadex-details" data-open="false" class="mangadex-details fadeable faded absolute bottom-12 right-4 bg-white shadow-lg">
       <div class="relative flex flex-col gap-3 h-full w-full">
         <h6>Viewing: <span data-display="current-page" class="font-bold">--/--</span></h6>
         <h1>
@@ -61,7 +101,11 @@
           <h5>Credits</h5>
           <ul class="text-xs">
             <li>Chapter title: <%= @readable.chapter.title %></li>
-            <li>Scanlation group: <%= link_to(@readable.chapter.scanlation_group.name, "https://mangadex.org/group/#{@readable.chapter.scanlation_group.id}", target: :_blank) %></li>
+            <% if @readable.scanlation_group.present? %>
+              <li>Scanlation group: <%= link_to(@readable.scanlation_group.name, "https://mangadex.org/group/#{@readable.chapter.scanlation_group.id}", target: :_blank) %></li>
+            <% else %>
+              <li><em>No scanlation group info found for this chapter</em></li>
+            <% end %>
             <li>Thank you: <%= link_to("Mangadex.org", "https://mangadex.org", class: "text-mangadex", target: :_blank) %></li>
           </ul>
         </div>

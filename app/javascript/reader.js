@@ -74,6 +74,9 @@ function initReader() {
           setTimeout(() => {
             target.classList.toggle(toAdd);
           }, 250);
+          console.log(target);
+          target.dataset.open =
+            target.dataset.open === "true" ? "false" : "true";
         } else {
           console.error("Element", `#${targetId}`, "doesn't exit");
         }
@@ -104,12 +107,12 @@ function initReader() {
     const clickedRight =
       e.clientX > width - width * options.navigation.ratio.right;
 
-    navigateToPage(clickedLeft, clickedRight);
+    navigateToPage(reader, clickedLeft, clickedRight);
     updatePages(reader);
   });
 
   window.addEventListener("keydown", (e) => {
-    navigateToPage(e.key === "ArrowLeft", e.key === "ArrowRight");
+    navigateToPage(reader, e.key === "ArrowLeft", e.key === "ArrowRight");
     updatePages(reader);
   });
 
@@ -178,7 +181,7 @@ function canGoRight(reader) {
   return currentPage < pages;
 }
 
-function navigateToPage(isLeft, isRight) {
+function navigateToPage(reader, isLeft, isRight) {
   if (isLeft && canGoLeft(reader)) {
     previousPage(reader);
   } else if (isRight && canGoRight(reader)) {
@@ -187,6 +190,20 @@ function navigateToPage(isLeft, isRight) {
     // go to next page
     window.location.href = "/";
   }
+  dismissPopups(reader);
+}
+
+function dismissPopups(reader) {
+  reader.querySelectorAll('[data-role="toggle"]').forEach((element) => {
+    const target =
+      element.dataset.for && document.getElementById(element.dataset.for);
+    if (target) {
+      target.classList.add(element.dataset.class || "hidden");
+      setTimeout(() => {
+        target.classList.remove("z-10");
+      }, 250);
+    }
+  });
 }
 
 function nextPage(reader) {
