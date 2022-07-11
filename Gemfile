@@ -73,3 +73,5 @@ end
 
 
 gem "redcarpet", "~> 3.5"
+
+gem "redis", "~> 4.7"
