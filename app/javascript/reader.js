@@ -53,6 +53,11 @@ function initReader() {
     const { role } = roleButton.dataset;
 
     roleButton.addEventListener("click", (e) => {
+      if (role === "dismissable") {
+        dismissPopups(reader);
+        return;
+      }
+
       e.preventDefault();
 
       if (role === "next-manga") {

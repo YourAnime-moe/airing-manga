@@ -11,7 +11,7 @@ module Views
     end
 
     def by
-      [@manga.artist, @manga.author].compact.uniq do |a|
+      (@manga.every(:artist) + @manga.every(:author)).uniq do |a|
         a.id
       end
     end

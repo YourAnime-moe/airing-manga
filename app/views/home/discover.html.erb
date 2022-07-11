@@ -27,19 +27,38 @@
       <div class="progress-bar h-px"></div>
     </div>
     <div id="menu" data-open="false" class="menu absolute fadeable faded top-4 left-4 bg-white shadow-lg" style="width: 564px;">
-      <h1>Settings</h1>
+      <div class="header flex gap-1 items-center">
+        <%= link_to("#", class: "block w-6 h-6", data: { role: "toggle", for: "menu", class: 'faded' }) do %>
+          <%= image_tag("icons/MobileCancelMajor.svg", class: 'icon') %>
+        <% end %>
+        <h1>Settings</h1>
+      </div>
       <div class="flex flex-col gap-3">
         <% if logged_in? %>
-          <div class="user-info flex items-center gap-4">
-            <h2>Welcome, <%= current_user.youranime_user.username %></h2>
-            <%= link_to("Logout", logout_path, data: {"turbo-method": :delete}, class: "text-mangadex underline text-sm") %>
+          <div class="user-info flex flex-col gap-1">
+            <h2>Welcome!</h2>
+            <div class="flex flex-col">
+              <% if current_mangadex_user.present? %>
+                <p>Mangadex: <%= current_mangadex_user.username %></p>
+              <% else %>
+                <span>Mangadex: <%= link_to("Link account", "#", class: "text-mangadex underline text-sm", data: { role: "login-mangadex" }) %></span>
+              <% end %>
+
+              <% if current_youranime_user.present? %>
+                <p>YourAnime: <%= current_youranime_user.username %></p>
+              <% else %>
+                <span>YourAnime: <%= link_to("Link account", login_youranime_path, class: "text-green-500 underline text-sm") %></span>
+              <% end %>
+            
+              <%= link_to("Logout", logout_path, data: {"turbo-method": :delete}, class: "text-red-800 underline text-sm") %>
+            </div>
           </div>
         <% else %>
-          <div class="authentication flex items-center gap-4">
-            <h2>Log in with</h2>
-            <div class="login-options flex gap-2">
-              <%= link_to("Mangadex.org", "#", class: "text-mangadex underline text-sm", data: { role: "login-mangadex" }) %>
-              <%= link_to("YourAnime.moe", login_youranime_path, class: "text-mangadex underline text-sm") %>
+          <div class="authentication flex flex-col gap-1">
+            <h2>Link your account:</h2>
+            <div class="login-options flex flex-col">
+              <span>Mangadex: <%= link_to("Log in", "#", class: "text-mangadex underline text-sm", data: { role: "login-mangadex" }) %></span>
+              <span>YourAnime: <%= link_to("Log in", login_youranime_path, class: "text-green-500 underline text-sm") %></span>
             </div>
           </div>
         <% end %>
@@ -124,7 +143,13 @@
           </ul>
         </div>
         <div class="read-more mt-4 w-full">
-          <%= link_to(manga_path(@readable.manga.id), class: "p-3 text-white bg-mangadex rounded-md focus:ring ring-offset-2 ring-mangadex text-center block w-full", target: "_blank") do %>
+          <%=
+            link_to(
+              manga_path(@readable.manga.id),
+              class: "p-3 text-white bg-mangadex rounded-md focus:ring ring-offset-2 ring-mangadex text-center block w-full",
+              target: "_blank",
+              data: { role: "dismissable" }
+            ) do %>
             More on Mangadex.org
           <% end %>
         </div>

@@ -13,7 +13,12 @@ class LoginController < ApplicationController
     response = RestClient.get(youranime_user_info(access_token))
     user_info = JSON.parse(response.body)
 
-    session[:user] = find_or_build_youranime_user(user_info, grant_token).user.id
+    session[:user] ||= {}
+
+    session[:user].merge!({
+      youranime: find_or_build_youranime_user(user_info, grant_token).user.id,
+    })
+
     return_to_url = session.delete(:return_to) || root_path
 
     redirect_to(return_to_url)
@@ -22,7 +27,7 @@ class LoginController < ApplicationController
   def logout
     return_to_url = request.referer || root_path
     if logged_in?
-      current_user.logout
+      current_youranime_user.logout
       session.delete(:user)
     end
     redirect_to(return_to_url)

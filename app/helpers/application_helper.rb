@@ -1,12 +1,16 @@
 require "redcarpet/render_strip"
 
 module ApplicationHelper
-  def current_user
-    @current_user ||= User.find_by(id: session[:user])
+  def current_youranime_user
+    @current_youranime_user ||= YouranimeUser.find_by(id: session.dig(:user, "youranime"))
+  end
+
+  def current_mangadex_user
+
   end
 
   def logged_in?
-    current_user.present?
+    current_youranime_user.present? || current_mangadex_user.present?
   end
 
   def manga_title(manga, locale = I18n.locale)
