@@ -4,6 +4,19 @@ class LoginController < ApplicationController
     redirect_to(youranime_login_url, allow_other_host: true)
   end
 
+  def mangadex
+    session[:return_to] ||= request.referer
+
+    username = params[:username]
+    password = params[:password]
+
+    Mangadex::Auth.login(username: username, password: password)
+  rescue AuthenticationError => e
+    puts(e)
+  ensure
+    redirect_to(session[:return_to] || root_path)
+  end
+
   def youranime_callback
     grant_token_url = youranime_grant_token_url(params[:code])
     response = RestClient.post(grant_token_url, {})

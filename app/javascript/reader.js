@@ -189,13 +189,14 @@ function canGoRight(reader) {
 function navigateToPage(reader, isLeft, isRight) {
   if (isLeft && canGoLeft(reader)) {
     previousPage(reader);
+    dismissPopups(reader);
   } else if (isRight && canGoRight(reader)) {
     nextPage(reader);
+    dismissPopups(reader);
   } else if (isRight && options.navigation.lastPage.goToNextManga) {
     // go to next page
     window.location.href = "/";
   }
-  dismissPopups(reader);
 }
 
 function dismissPopups(reader) {

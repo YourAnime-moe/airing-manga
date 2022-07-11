@@ -41,7 +41,11 @@
               <% if current_mangadex_user.present? %>
                 <p>Mangadex: <%= current_mangadex_user.username %></p>
               <% else %>
-                <span>Mangadex: <%= link_to("Link account", "#", class: "text-mangadex underline text-sm", data: { role: "login-mangadex" }) %></span>
+                <span>Mangadex: <%= link_to("Link account", "#", class: "text-mangadex underline text-sm", data: { role: "toggle", for: "login-mangadex-form" }) %></span>
+                <%= form_with(url: login_mangadex_path, method: :post, class: "hidden", id: "login-mangadex-form") do |f| %>
+                  <%= f.text_field :username, class: "field username" %>
+                  <%= f.password_field :password, class: "field username" %>
+                <% end %>
               <% end %>
 
               <% if current_youranime_user.present? %>
@@ -57,7 +61,12 @@
           <div class="authentication flex flex-col gap-1">
             <h2>Link your account:</h2>
             <div class="login-options flex flex-col">
-              <span>Mangadex: <%= link_to("Log in", "#", class: "text-mangadex underline text-sm", data: { role: "login-mangadex" }) %></span>
+              <span>Mangadex: <%= link_to("Log in", "#", class: "text-mangadex underline text-sm", data: { role: "toggle", for: "login-mangadex-form" }) %></span>
+              <%= form_with(url: login_mangadex_path, method: :post, class: "hidden", id: "login-mangadex-form") do |f| %>
+                  <%= f.text_field :username, class: "field username" %>
+                  <%= f.password_field :password, class: "field username" %>
+                  <%= f.submit %>
+                <% end %>
               <span>YourAnime: <%= link_to("Log in", login_youranime_path, class: "text-green-500 underline text-sm") %></span>
             </div>
           </div>
