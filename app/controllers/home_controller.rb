@@ -11,9 +11,6 @@ class HomeController < ApplicationController
 
   def discover
     @readable = FetchReadableRandomManga.perform(I18n.locale, from_id: params[:id])
-    # if @readable.manga.id != params[:id]
-    #   redirect_to(root_path)
-    # end
   end
 
   def discoveries

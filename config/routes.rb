@@ -11,5 +11,7 @@ Rails.application.routes.draw do
 
   delete :logout, to: "login#logout"
 
+  get "/chapter/:id/page/:page", to: "home#serve_chapter", as: :serve_chapter
+
   resources :manga, only: :show
 end

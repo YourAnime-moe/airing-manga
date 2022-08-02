@@ -29,8 +29,8 @@ module Views
     def page_urls
       return @page_urls if @page_urls.present?
 
-      @page_urls = [@manga.cover_art.image_url(size: :original)]
-      @page_urls.concat(chapter.page_urls(data_saver: @data_saver))
+      @page_urls = Array.wrap([@manga.cover_art.image_url(size: :original)])
+      @page_urls.concat(Array.wrap(chapter.page_urls(data_saver: @data_saver)))
 
       @page_urls
     end
