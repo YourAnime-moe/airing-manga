@@ -43,7 +43,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 
 # Mangadex
-gem "mangadex", github: "thedrummeraki/mangadex", tag: "v5.6.0.1"
+gem "mangadex", "~> 5.7.5"
 
 # Rest client
 gem "rest-client", "~> 2.1"

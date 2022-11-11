@@ -1,0 +1,30 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: youranime
+      POSTGRES_PASSWORD: devpass
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    stdin_open: true
+    tty: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - gems:/gems
+      - tmp:/tmp
+    environment:
+      DATABASE_URL: postgresql://youranime:devpass@db
+      BUNDLE_PATH: /gems
+    depends_on:
+      - db
+
+volumes:
+  gems:
+  tmp:
