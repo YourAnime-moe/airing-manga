@@ -33,6 +33,7 @@ module Views
       @page_urls.concat(Array.wrap(chapter.page_urls(data_saver: @data_saver)))
 
       @page_urls
+      # []
     end
 
     def long_strip?

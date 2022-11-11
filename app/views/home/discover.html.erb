@@ -165,11 +165,16 @@
       </div>
     </div>
   </div>
+  <div class="hidden flex justify-center items-center">
+    <p class="text-white text-center">
+      Opening pages --/<%= @readable.chapter.pages %>
+    </p>
+  </div>
   <div class="absolute w-full h-full overflow-auto" id="wrapper">
     <div id="container">
-      <% @readable.page_urls.first(3).each_with_index do |page_url, index| %>
+      <% @readable.page_urls.each_with_index do |page_url, index| %>
         <div class="hidden absolute" data-page="<%= index %>">
-          <%= image_tag(serve_chapter_path(id: @readable.chapter.id, page: index + 1), class: 'image') %>
+          <%= image_tag(serve_chapter_path(id: @readable.chapter.id, page: index + 1), class: 'image', loading: ('lazy' if index > 3)) %>
         </div>
       <% end %>
     </div>

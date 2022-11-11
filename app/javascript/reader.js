@@ -100,6 +100,7 @@ function initReader() {
       if (mutation.type === "attributes") {
         updateProgressBar(reader);
         updateDisplay(reader);
+        unlazifyImage(reader);
       }
     });
   });
@@ -117,8 +118,12 @@ function initReader() {
   });
 
   window.addEventListener("keydown", (e) => {
-    navigateToPage(reader, e.key === "ArrowLeft", e.key === "ArrowRight");
-    updatePages(reader);
+    if (e.key === "r") {
+      window.location.href = "/";
+    } else {
+      navigateToPage(reader, e.key === "ArrowLeft", e.key === "ArrowRight");
+      updatePages(reader);
+    }
   });
 
   updatePages(reader);
@@ -244,6 +249,16 @@ function updateDisplay(reader) {
       }
     }
   });
+}
+
+function unlazifyImage(reader, loadPagesCount = 3) {
+  const currentPage = parseInt(reader.dataset.currentPage);
+  const lastPage = parseInt(reader.dataset.pages) - 1;
+  const pageToLoad = Math.min(loadPagesCount + currentPage, lastPage);
+
+  document
+    .querySelector(`[data-page="${pageToLoad}"] img`)
+    .removeAttribute("loading");
 }
 
 function getReaderFormatOptions(reader) {

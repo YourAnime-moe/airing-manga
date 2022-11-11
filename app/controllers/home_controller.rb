@@ -20,10 +20,11 @@ class HomeController < ApplicationController
       ids: ids,
       limit: ids.length,
       includes: :cover_art,
+      content_rating: Mangadex::ContentRating::VALUES,
     ).data
 
     @manga = ids.map do |id|
       result.find { |manga| manga.id == id }
-    end
+    end.compact
   end
 end
