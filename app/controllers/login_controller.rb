@@ -1,4 +1,7 @@
 class LoginController < ApplicationController
+  class AuthenticationError < StandardError
+  end
+
   def youranime
     session[:return_to] ||= request.referer
     redirect_to(youranime_login_url, allow_other_host: true)
@@ -10,8 +13,15 @@ class LoginController < ApplicationController
     username = params[:username]
     password = params[:password]
 
-    Mangadex::Auth.login(username: username, password: password)
+    response = Mangadex::Auth.login(username: username, password: password)
+
+    session[:user] ||= {}
+    session[:user].merge!({
+      mangadex: find_or_build_mangadex_user(response).id,
+    })
   rescue AuthenticationError => e
+    puts(e)
+  rescue Mangadex::Errors::UnauthorizedError => e
     puts(e)
   ensure
     redirect_to(session[:return_to] || root_path)
@@ -112,5 +122,20 @@ class LoginController < ApplicationController
     )
     youranime_user.save!
     youranime_user
+  end
+
+  def find_or_build_mangadex_user(response)
+    if response.is_a?(Mangadex::Api::Response) && response.result == "error"
+      raise AuthenticationError(response.errors.map(&:detail).join('. '))
+    end
+
+    user = MangadexUser.find_or_initialize_by(mangadex_user_id: response.mangadex_user_id)
+    user.username = response.data.username
+    user.session = response.session
+    user.refresh = response.refresh
+    user.session_valid_until = response.session_valid_until
+
+    user.save!
+    user
   end
 end

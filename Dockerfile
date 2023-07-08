@@ -1,4 +1,5 @@
 FROM ruby:3.0.1
+VOLUME [ "/gems" ]
 WORKDIR /app
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock

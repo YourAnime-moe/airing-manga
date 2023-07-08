@@ -29,7 +29,7 @@ const options = {
       page: {
         container: [],
         page: ["w-full", "bg-black", "min-h-screen"],
-        image: ["w-full", "h-full", "m-auto"],
+        image: ["w-[90%]", "h-full", "m-auto"],
       },
     },
     default: "fullheight",
@@ -118,11 +118,14 @@ function initReader() {
   });
 
   window.addEventListener("keydown", (e) => {
-    if (e.key === "r") {
-      window.location.href = "/";
-    } else {
-      navigateToPage(reader, e.key === "ArrowLeft", e.key === "ArrowRight");
-      updatePages(reader);
+    console.log(e.target);
+    if (e.target === document.body) {
+      if (e.key === "r") {
+        window.location.href = "/";
+      } else {
+        navigateToPage(reader, e.key === "ArrowLeft", e.key === "ArrowRight");
+        updatePages(reader);
+      }
     }
   });
 

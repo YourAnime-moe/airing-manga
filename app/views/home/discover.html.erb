@@ -65,7 +65,7 @@
               <%= form_with(url: login_mangadex_path, method: :post, class: "hidden", id: "login-mangadex-form") do |f| %>
                   <%= f.text_field :username, class: "field username" %>
                   <%= f.password_field :password, class: "field username" %>
-                  <%= f.submit %>
+                  <%= f.submit('Log in') %>
                 <% end %>
               <span>YourAnime: <%= link_to("Log in", login_youranime_path, class: "text-green-500 underline text-sm") %></span>
             </div>
@@ -108,7 +108,7 @@
         </div>
       </div>
     </div>
-    <div id="mangadex-details" data-open="false" class="mangadex-details fadeable faded absolute bottom-12 right-4 bg-white shadow-lg">
+    <div id="mangadex-details" data-open="false" class="mangadex-details fadeable faded absolute bottom-16 right-4 bg-white shadow-lg">
       <div class="relative flex flex-col gap-3 h-full w-full">
         <h6>Viewing: <span data-display="current-page" class="font-bold">--/--</span></h6>
         <h1>
@@ -164,11 +164,6 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="hidden flex justify-center items-center">
-    <p class="text-white text-center">
-      Opening pages --/<%= @readable.chapter.pages %>
-    </p>
   </div>
   <div class="absolute w-full h-full overflow-auto" id="wrapper">
     <div id="container">

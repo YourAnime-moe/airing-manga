@@ -43,7 +43,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 
 # Mangadex
-gem "mangadex", "~> 5.7.5"
+gem "mangadex", "~> 5.10"
 
 # Rest client
 gem "rest-client", "~> 2.1"
@@ -75,3 +75,5 @@ end
 gem "redcarpet", "~> 3.5"
 
 gem "redis", "~> 4.7"
+
+gem "openid_connect", "~> 2.2"
