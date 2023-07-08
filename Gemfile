@@ -74,6 +74,6 @@ end
 
 gem "redcarpet", "~> 3.5"
 
-gem "redis", "~> 4.7"
+gem "redis", "~> 5.0"
 
 gem "openid_connect", "~> 2.2"
