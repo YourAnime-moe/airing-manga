@@ -213,7 +213,10 @@ GEM
       loofah (~> 2.3)
     rake (13.0.6)
     redcarpet (3.5.1)
-    redis (4.7.1)
+    redis (5.0.7)
+      redis-client (>= 0.9.0)
+    redis-client (0.15.0)
+      connection_pool
     reline (0.3.1)
       io-console (~> 0.5)
     rest-client (2.1.0)
@@ -288,7 +291,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails!
   redcarpet (~> 3.5)
-  redis (~> 4.7)
+  redis (~> 5.0)
   rest-client (~> 2.1)
   sprockets-rails
   sqlite3 (~> 1.4)
